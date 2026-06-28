@@ -1,0 +1,86 @@
+!% -~S
+!% $OMIT_UNUSED_ROUTINES=1
+!% $ZCODE_LESS_DICT_DATA=1
+!% $LONG_DICT_FLAG_BUG=0
+!% $ZCODE_COMPACT_GLOBALS=1
+!% $MAX_ABBREVS=96
+!% $ZCODE_MAX_INLINE_STRING=1200
+!% $TRANSCRIPT_FORMAT=1
+!!% $OMIT_SYMBOL_TABLE=1 ! Saves space, only possible without DEBUG mode
+
+Include "abbreviations.h";
+
+! ####################################
+!  Game constants
+! ####################################
+
+Constant Story	  "S";
+Constant Headline   "^H^";
+Constant NO_SCORE;
+Constant NO_PLACES;
+
+!Constant OPTIONAL_DARKNESS;
+!Constant OPTIONAL_LOOKMODE;
+!Constant OPTIONAL_PRONOUNS;
+!Constant OPTIONAL_REACTIVE_PARSE_NAME;
+!Constant OPTIONAL_SCRIPT;
+
+! Scoring
+!Constant NO_SCORE;
+!Constant MAX_SCORE = ;
+!Constant OPTIONAL_FULL_SCORE;
+!Constant OPTIONAL_SCORED;
+!Constant ROOM_SCORE = ;
+!Constant OBJECT_SCORE = ;
+!Constant TASKS_PROVIDED; ! See DM4 for what else you need to define for this
+
+Constant STATUSLINE_SCORE; Statusline score;
+!Constant STATUSLINE_TIME; Statusline time;
+
+!Constant RUNTIME_ERRORS = 0; ! 0, 1 or 2. 0 = smallest file, 2 = most info
+
+Constant INITIAL_LOCATION_VALUE = Road;
+
+! ####################################
+!  Library initialization
+! ####################################
+
+Include "nail.h";
+
+! ####################################
+!  Game globals, properties etc
+! ####################################
+
+! ####################################
+!  Dictionary
+! ####################################
+
+! Set constant names for dictionary words we want to name explicitly
+! 'to' = W_TO_WORD
+
+Include "generated_dictionary.h";
+
+! ####################################
+!  Parser, actions and grammar
+! ####################################
+
+Include "generated_parser.inf";
+
+! ####################################
+!  Game objects
+! ####################################
+
+! We have to define selfobj, global variable player will point to this object
+Object selfobj "yourself"
+	with nouns 'me' 'myself' 'yourself',
+	has animate proper transparent;
+
+Object Road "R"
+	with description "r";
+
+Constant Initialise 0; ! Define an Initialise routine instead, if you need one
+
+
+
+
+
