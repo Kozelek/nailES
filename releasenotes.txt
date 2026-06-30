@@ -3,6 +3,15 @@
 Upcoming release:
 
 ===
+v1.2, 2026-06-30
+
+New/changed functionality:
+
+- Added support for typing multiple commands on a line, separated by ".".
+- Moved newline before prompt from nail.h to message MSG_PROMPT.
+- Moved declarations of word constant names needed by NAIL's standard definitions from game.inf to parser.inf, and added constant for './/' (Authors can still add their own word constants at the beginning of game.inf)
+
+===
 v1.1, 2026-06-30
 
 New/changed functionality:

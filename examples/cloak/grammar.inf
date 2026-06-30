@@ -1434,8 +1434,8 @@ Constant MSG_FULLSCORE_ACTIONS "performing noteworthy actions";
 	switch(p_msg) {
 	MSG_DONT_UNDERSTAND:
 		"I didn't understand that sentence.";
-	MSG_PROMPT: 
-		print "> "; rtrue;
+	MSG_PROMPT:
+		print "^> "; rtrue;
 	MSG_OK: 
 		"Ok.";
 	MSG_AUTO_TAKE:

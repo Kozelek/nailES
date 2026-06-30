@@ -93,6 +93,8 @@ Global verb_word;
 Global scope_objects;
 Global scope_copy_objects;
 Global num_words;
+Global num_words_enqueued;
+Global start_words_enqueued;
 Global unparsed_start;
 Global action;
 Global action_to_be;
@@ -336,7 +338,6 @@ Object thedark "Darkness"
 #Ifndef NO_SCORE;
 		_score = score;
 #Endif;
-		new_line;
 		_ReadPlayerInput();
 		if(ParseAndPerformAction() && meta == false) {
 			EndTurnSequence();

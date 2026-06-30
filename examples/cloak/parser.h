@@ -1,4 +1,11 @@
 ! ####################################
+!  Word constants
+! ####################################
+
+! 'to' = W_TO_WORD
+! './/' = W_PERIOD_WORD
+
+! ####################################
 !  Supporting routines
 ! ####################################
 
@@ -397,35 +404,55 @@
 	}
 	if(c < 1024) c = c - 2000;
 	p-->0 = c;
+	return c;
 ];
 
-[ _ReadPlayerInput p_no_prompt p_secondary _result _i _buffer _parse _num_words;
+[ _ReadPlayerInput p_no_prompt p_secondary _result 
+		_i _buffer _parse _num_words;
 	_buffer = buffer;
 	_parse = parse;
 	if(p_secondary) {
 		_buffer = buffer2;
 		_parse = parse2;
 	}
-	if(p_no_prompt == 0) PrintMsg(MSG_PROMPT);
-	_buffer->0 = 78;
-	_parse->0 = 19;
-	@sread _buffer _parse;
-	_num_words = _parse->1;
-	if(p_secondary == false)
-		num_words = _num_words;
+
+	if(p_secondary == false && num_words_enqueued > 0) {
+		_i = 1;
+		_result = start_words_enqueued;
+._copyNextWord;
+		_parse-->(_i + _i) = parse-->(_result + _result);
+		@inc _result;
+		@inc_chk _i num_words_enqueued ?~_copyNextWord;
+		num_words = num_words_enqueued;
+		_num_words = num_words;
+		_parse->1 = num_words;
+		num_words_enqueued = 0;
+	} else {
+		if(p_no_prompt == 0) PrintMsg(MSG_PROMPT);
+		_buffer->0 = 78;
+		_parse->0 = 19;
+		@sread _buffer _parse;
+		_num_words = _parse->1;
+		if(p_secondary == false) {
+			num_words = _num_words;
+			num_words_enqueued = 0;
+		}
+	}
 !	for(_i=1: _i<=_num_words: _i++)
 !		CalcChkSum(_i, _buffer, _parse);
 	_i = 1;
 ._calcNext;
-	CalcChkSum(_i, _buffer, _parse);
-	@inc_chk _i num_words ?~_calcNext;
-
-	! Set word after last word in parse array to all zeroes, so it won't match any words.
-	_result = _num_words + _num_words + 1;
-	_parse-->_result = 0;
-	_result++;
-	_parse-->_result = 0;
-
+	_result = CalcChkSum(_i, _buffer, _parse);
+!	print "r",_result;
+	if(_result == './/' && p_secondary == false) {
+		num_words_enqueued = num_words - _i;
+		start_words_enqueued = _i + 1;
+		num_words = _i - 1;
+		_num_words = num_words;
+		_parse->1 = num_words;
+	}
+	@inc_chk _i _num_words ?~_calcNext;
+	
 ];
 
 [ ParseAndPerformAction _i _max _grammar 

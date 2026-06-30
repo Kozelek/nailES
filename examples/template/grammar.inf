@@ -1429,7 +1429,7 @@ Constant MSG_FULLSCORE_ACTIONS "performing noteworthy actions";
 	MSG_DONT_UNDERSTAND:
 		"I didn't understand that sentence.";
 	MSG_PROMPT: 
-		print "> "; rtrue;
+		print "^> "; rtrue;
 	MSG_OK: 
 		"Ok.";
 	MSG_AUTO_TAKE:
