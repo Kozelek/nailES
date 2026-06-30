@@ -16,8 +16,8 @@ Include "abbreviations.h";
 
 Constant Story	  "Cloak of Darkness";
 Constant Headline   "^A basic IF demonstration.^";
-Release 1;
-Serial "260628";
+Release 2;
+Serial "260630";
 
 Constant NO_PLACES;
 
@@ -64,7 +64,9 @@ Include "generated_dictionary.h";
 !  Parser, actions and grammar
 ! ####################################
 
-Include "generated_parser.inf";
+Include "generated_parser.h";
+
+Include "generated_grammar.inf";
 
 ! ####################################
 !  Game objects

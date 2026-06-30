@@ -1,0 +1,13 @@
+(For more detailed release notes, see https://github.com/fredrikr/nail/releases )
+
+Upcoming release:
+
+===
+v1.1, 2026-06-30
+
+New/changed functionality:
+
+- Restructured project files, moving parser procedures to a new file called parser.h, to make it easier for users to upgrade to a new library version.
+
+===
+v1.0 - Initial release, 2026-06-28

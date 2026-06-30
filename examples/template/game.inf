@@ -64,7 +64,9 @@ Include "generated_dictionary.h";
 !  Parser, actions and grammar
 ! ####################################
 
-Include "generated_parser.inf";
+Include "generated_parser.h";
+
+Include "generated_grammar.inf";
 
 ! ####################################
 !  Game objects

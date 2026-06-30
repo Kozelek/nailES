@@ -1,22 +1,24 @@
 #!/bin/sh
 
+# Note: These variable values can include a path (absolute or relative)
 ruby=ruby
-compiler=../../../PunyInform/inform6
+compiler=inform6
 naildir=../../bin
 dictionary=generated_dictionary.h
 source1=game.inf
-source2=parser.inf
+source2=grammar.inf
+source3=parser.h
 outfile=game.z3
 debug_outfile=game_debug.z3
 
 # Build dictionary
-$ruby "$naildir/build_dictionary.rb" "$dictionary" "$source1" "$source2"
+$ruby "$naildir/build_dictionary.rb" "$dictionary" "$source1" "$source2" "$source3"
 if [ $? -ne 0 ]; then
     exit $?
 fi
 
 # Transform code
-$ruby "$naildir/transform_code.rb" "$dictionary" "$source1" "$source2"
+$ruby "$naildir/transform_code.rb" "$dictionary" "$source1" "$source2" "$source3"
 if [ $? -ne 0 ]; then
     exit $?
 fi
