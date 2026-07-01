@@ -56,6 +56,8 @@ puts "#{word_count} different words found in source."
 
 $chk2 = {}
 $const = {}
+$const_counter = 0
+
 
 $default_unicode = "äöüÄÖÜß»«ëïÿËÏáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛåÅøØãñõÃÑÕæÆçÇþðÞÐ£œŒ¡¿"
 $default_unicode_replacements = [
@@ -96,43 +98,49 @@ def calcChk2(str)
 	s
 end
 
+def getSpecialConstName
+	while $const.has_key? "SPECIAL_WORD_#{$const_counter.to_s}" do
+		$const_counter += 1
+	end
+	"SPECIAL_WORD_#{$const_counter.to_s}"
+end
+
 def addConst(source_word)
 	arr = $words[source_word]
-#	zscii_word = in_arr[0]
-	const = nil # in_arr[1]
-#	puts "ENTRY: #{word_entry}"
-#	arr = [zscii_word] #word_entry.chomp.strip.downcase.split(/\|/)
-	unless const
-		if arr.length > 1 and arr[1]
-#			puts arr
-			const = arr[1].upcase 
-		else
-			const = arr[0].upcase.tr('-,/', '_').gsub(/'/,"_Q_").gsub(/__+/,"_")
-			if const =~ /[^A-Z0-9\_']/
-				res = ""
-				const.each_char do |c|
-					if c.ord > 127
-						i = $default_unicode.index(c)
-						unless i
-							puts "addConst: Unavailable unicode character #{c} " + 
-								"found in constant name #{const}!"
-							exit 1
-						end
+	# arr[0] is the dictionary word, as ASCII
+	# arr[1], if available, is a constant name set in the source code
+	const = nil
+	if arr.length > 1 and arr[1]
+		const = arr[1].upcase 
+	else
+		const = arr[0].upcase.tr('-,/', '_').gsub(/'/,"_Q_").gsub(/__+/,"_")
+		const = '%' if const =~ /^_*$/ # Make const name illegal, so it gets generic name
+		if const =~ /[^A-Z0-9\_']/
+			res = ""
+			const.each_char do |c|
+				if c.ord > 127
+					i = $default_unicode.index(c)
+					unless i
+						c = "X"
+#							puts "addConst: Unavailable unicode character #{c} " + 
+#								"found in constant name #{const}!"
+#							exit 1
+					else
 						c = $default_unicode_replacements[i].upcase
 					end
-					res += c
 				end
-				const = res
+				res += c
 			end
+			const = res
 		end
 	end
 	if $const.has_key? const
-		puts "ERROR: Constant W_#{const} has multiple entries!"
-		puts $const.to_s
-		exit 1
+		const = getSpecialConstName
+#		puts "ERROR: Constant W_#{const} has multiple entries!"
+#		puts $const.to_s
+#		exit 1
 	elsif const =~ /[^A-Z0-9_]/
-		puts "ERROR: Constant W_#{const} has illegal characters (Only A-Z, 0-9, _ are valid)!"
-		exit 1
+		const = getSpecialConstName
 	end
 	$const[const] = [calcChk2(arr[0]), arr[0], source_word]
 	const
