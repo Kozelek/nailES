@@ -542,8 +542,9 @@ Constant ERR_BUFFER_OVERRUN 7;
 	}
 #Endif;
 #Endif;
-	RunTimersAndDaemons(); if(deadflag >= GS_DEAD) rtrue;
-	RunEachTurn(); if(deadflag >= GS_DEAD) rtrue;
+	@jz deadflag ?~rtrue; ! Return if game is over
+	RunTimersAndDaemons(); @jz deadflag ?~rtrue; ! Return if game is over
+	RunEachTurn(); @jz deadflag ?~rtrue; ! Return if game is over
 	
 #Ifdef TimePasses;
 	RunEntryPointRoutine(TimePasses);
@@ -801,6 +802,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 		if(RunRoutines(_obj, p_property) && p_break) {
 			rtrue;
 		}
+		@jz deadflag ?~rtrue; ! Return if game is over
 	}
 	@inc_chk _i _max ?~_RunReactNext;
 	rtrue;
@@ -817,6 +819,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 		if(debug_flag & 1) print "[ ~", (name) location, "~.each_turn() ]^";
 #Endif;
 		RunRoutines(location, each_turn);
+		@jz deadflag ?~rtrue; ! Return if game is over
 	}
 
 	_RunReact(each_turn);
@@ -1043,6 +1046,7 @@ Global timers;
 	} else
 		_obj =  -_obj;
 	_obj.daemon();
+	@jz deadflag ?~rtrue; ! Return if game is over
 ._dont_run;
 	@inc_chk _i _count ?~_run_next_timer;
 ];
