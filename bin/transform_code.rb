@@ -12,8 +12,8 @@
 # generated_source1.inf and generated_source2.inf
 
 if ARGV.length < 2
-	puts "Sample usage: ruby transform_code.rb dictionary.inf mygame.inf parser.inf ..."
-	puts "Note: This CREATES/OVERWRITES generated_mygame.inf and generated_parser.inf"
+	puts "Sample usage: ruby transform_code.rb dictionary.inf game.inf ..\lib\parser.h grammar.inf"
+	puts "Note: This CREATES/OVERWRITES generated_game.inf, generated_parser.h and generated_grammar.inf"
 	exit 1
 end
 
@@ -45,7 +45,8 @@ end
 
 1.upto(ARGV.count - 1) do |argno|
 	source_file = ARGV[argno]
-	target_file = "generated_" + source_file
+	source_file_filename = source_file.split(/[\/\\]+/).last
+	target_file = "generated_" + source_file_filename
 
 	if source_file =~ /^generated/i 
 		puts "ERROR: A source file name (#{source_file}) starts with 'generated', this is illegal!"

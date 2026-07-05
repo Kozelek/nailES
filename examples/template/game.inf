@@ -8,7 +8,7 @@
 !% $TRANSCRIPT_FORMAT=1
 !!% $OMIT_SYMBOL_TABLE=1 ! Saves space, only possible without DEBUG mode
 
-Include "abbreviations.h";
+Include ">abbreviations.h";
 
 ! ####################################
 !  Game constants
@@ -58,15 +58,15 @@ Include "nail.h";
 ! Set constant names for dictionary words we want to name explicitly
 ! E.g. "! 'myword' = W_MY_SPECIAL_WORD"
 
-Include "generated_dictionary.h";
+Include ">generated_dictionary.h";
 
 ! ####################################
 !  Parser, actions and grammar
 ! ####################################
 
-Include "generated_parser.h";
+Include ">generated_parser.h";
 
-Include "generated_grammar.inf";
+Include ">generated_grammar.inf";
 
 ! ####################################
 !  Game objects

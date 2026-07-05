@@ -6,8 +6,8 @@ System_file;
 ! ####################################
 
 Constant NAIL_MAJOR_VERSION = 1;
-Constant NAIL_MINOR_VERSION = 2;
-Constant NAIL_PATCH_VERSION = 1; ! Usually 0 (if zero, it is not printed in banner)
+Constant NAIL_MINOR_VERSION = 3;
+Constant NAIL_PATCH_VERSION = 0; ! Usually 0 (if zero, it is not printed in banner)
 !Constant NAIL_VERSION_SUFFIX = "dev"; ! Comment out if none
 
 
@@ -347,7 +347,7 @@ Object thedark "Darkness"
 		if(deadflag ~= GS_PLAYING or GS_WIN or GS_QUIT) {
 			! we died somehow, use entry routine to give
 			! a chance of resurrection
-			RunEntryPointRoutine(AfterLife);
+			AfterLife();
 		}
 #Endif;
 
@@ -547,7 +547,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 	RunEachTurn(); @jz deadflag ?~rtrue; ! Return if game is over
 	
 #Ifdef TimePasses;
-	RunEntryPointRoutine(TimePasses);
+	TimePasses();
 #Endif;
 #Ifdef OPTIONAL_DARKNESS;
 	_UpdateDarkness();
@@ -832,7 +832,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 #IfDef DEBUG;
 	if(debug_flag & 1) print "[ GamePreRoutine() ]^";
 #EndIf;
-	if(RunEntryPointRoutine(GamePreRoutine)) rtrue;
+	if(GamePreRoutine()) rtrue;
 #EndIf;
 
 	if(real_location.&before) {
@@ -869,7 +869,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 #IfDef DEBUG;
 	if(debug_flag & 1) print "[ GamePostRoutine() ]^";
 #EndIf;
-	if(RunEntryPointRoutine(GamePostRoutine)) rtrue;
+	if(GamePostRoutine()) rtrue;
 #EndIf;
 	rfalse;
 ];
@@ -941,9 +941,9 @@ Constant ERR_BUFFER_OVERRUN 7;
 #Ifdef NewRoom;
 #Ifdef OPTIONAL_DARKNESS;
 		if(location ~= thedark)
-			RunEntryPointRoutine(NewRoom);
+			NewRoom();
 #Ifnot;
-		RunEntryPointRoutine(NewRoom);
+		NewRoom();
 #Endif;
 #Endif;
 
@@ -952,7 +952,7 @@ Constant ERR_BUFFER_OVERRUN 7;
 	if(_old_real_loc ~= real_location && location == thedark && _old_loc == thedark) {
 		! we have moved between dark rooms
 		! give entry point a chance to react
-		RunEntryPointRoutine(DarkToDark);
+		DarkToDark();
 	}
 #Endif;
 #Endif;

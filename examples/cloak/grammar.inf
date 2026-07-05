@@ -122,7 +122,7 @@
 ._EndOfLookRoutine;
 #Ifdef LookRoutine;
 	! finally, call the optional library entry routine
-	RunEntryPointRoutine(LookRoutine);
+	LookRoutine();
 #Endif;
 	_action = action; action = ##Look;
 	AfterRoutines();
