@@ -36,6 +36,41 @@ end
 
 $dictionary_inf = ARGV[0]
 
+$default_unicode = "äöüÄÖÜß»«ëïÿËÏáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛåÅøØãñõÃÑÕæÆçÇþðÞÐ£œŒ¡¿"
+$default_unicode_replacements = [
+"ae","oe","ue","AE","OE","UE","ss","qstart","qend","edia","idia","ydia","EDIA","IDIA",
+"aacute","eacute","iacute","oacute","uacute","yacute",
+"AACUTE","EACUTE","IACUTE","OACUTE","UACUTE","YACUTE",
+"agrave","egrave","igrave","ograve","ugrave",
+"AGRAVE","EGRAVE","IGRAVE","OGRAVE","UGRAVE",
+"acflex","ecflex","icflex","ocflex","ucflex",
+"ACFLEX","ECFLEX","ICFLEX","OCFLEX","UCFLEX",
+"aa","AA","oslash","OSLASH",
+"atilde","ntilde","otilde","ATILDE","NTILDE","OTILDE",
+"aelig","AELIG","cced","CCED",
+"thorn","eth","THORN","ETH",
+"pound","oelig","OELIG","exclaminv","questinv"
+];
+
+def stringToIntArray(str)
+	arr = []
+	str = str.downcase
+	weird = (str =~ /[^a-z0-9\-']/)
+	str.each_char do |c|
+		v = c.ord
+		if weird and v > 127
+			i = $default_unicode.index(c)
+			unless i
+				puts "Unavailable character #{c} found in word #{str}!"
+				exit 1
+			end
+			v = 155 + i
+		end
+		arr.push v
+	end
+	arr
+end
+
 ####################################
 # Extract words from source
 ####################################
@@ -59,7 +94,8 @@ $linenumber = 0
 					zscii_word = source_word.dup
 					zscii_word = zscii_word[0] if zscii_word =~ /^.\/\/$/
 					zscii_word.gsub!("^", "'")
-					$words[source_word] = [zscii_word, const_name, $filename, $linenumber]
+					arr = stringToIntArray(zscii_word)
+					$words[source_word] = [zscii_word, const_name, arr, $filename, $linenumber]
 					word_count += 1
 	#				puts "source_word: #{source_word} zscii_word: #{zscii_word}"
 				end
@@ -75,44 +111,10 @@ $chk2 = {}
 $const = {}
 $const_counter = 0
 
-
-$default_unicode = "äöüÄÖÜß»«ëïÿËÏáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛåÅøØãñõÃÑÕæÆçÇþðÞÐ£œŒ¡¿"
-$default_unicode_replacements = [
-"ae","oe","ue","AE","OE","UE","ss","qstart","qend","edia","idia","ydia","EDIA","IDIA",
-"aacute","eacute","iacute","oacute","uacute","yacute",
-"AACUTE","EACUTE","IACUTE","OACUTE","UACUTE","YACUTE",
-"agrave","egrave","igrave","ograve","ugrave",
-"AGRAVE","EGRAVE","IGRAVE","OGRAVE","UGRAVE",
-"acflex","ecflex","icflex","ocflex","ucflex",
-"ACFLEX","ECFLEX","ICFLEX","OCFLEX","UCFLEX",
-"aa","AA","oslash","OSLASH",
-"atilde","ntilde","otilde","ATILDE","NTILDE","OTILDE",
-"aelig","AELIG","cced","CCED",
-"thorn","eth","THORN","ETH",
-"pound","oelig","OELIG","exclaminv","questinv"
-];
-
-def calcChk2(str)
+def calcChk2(arr)
 	s = 0
-	str = str.downcase
-	weird = (str =~ /[^a-z0-9\-']/)
-	str.each_char do |c|
-		v = c.ord
-		if weird and v > 127
-			i = $default_unicode.index(c)
-			unless i
-				puts "Unavailable character #{c} found in word #{str}!"
-				exit 1
-			end
-			v = 155 + i
-		end
-		s = $factor * s
-		s &= 0x7fff
-		s = s + v
-		s &= 0x7fff
-	end
-	s -= 2000 if s < 1024
-	s
+	arr.each { |v| s = ((($factor * s) & 0x7fff) + v) & 0x7fff }
+	case when s < 1024 then s - 2000 else s end
 end
 
 def getSpecialConstName
@@ -159,7 +161,7 @@ def addConst(source_word)
 	elsif const =~ /[^A-Z0-9_]/
 		const = getSpecialConstName
 	end
-	$const[const] = [calcChk2(arr[0]), arr[0], source_word]
+	$const[const] = [calcChk2(arr[2]), arr[0], source_word]
 	const
 end
 
@@ -182,14 +184,15 @@ $start_factor.upto($end_factor) do |i|
 
 	$words.values.each do |line|
 		word = line[0] # .chomp.strip.downcase.split(/\|/)[0]
+		arr = line[2]
 		if word.length > 0
 			count += 1
 #			print word
-			c2 = calcChk2(word)
+			c2 = calcChk2(arr)
 			if $chk2.has_key? c2
 				collisions += 1
 				collisions += 1 if $chk2[c2] !~ /.,./
-#				break if collisions >= best
+				break if collisions >= best
 				$chk2[c2] += "," + word
 	#			print word + "        Chk2:#{$chk2[c2]}\n"
 			else
@@ -250,4 +253,3 @@ File.open($dictionary_inf, 'w') do |file|
 	end
 
 end
-
