@@ -1,6 +1,6 @@
-# NAIL
+# NailES
 
-*No es una biblioteca de Inform*
+*Not An Inform Library (No es una biblioteca de Inform) edición en ESpañol*
 
 NailES es similar a una biblioteca estándar para el lenguaje de programación Inform 6.
 Debería permitir a los autores crear juegos de aventuras de texto o ficción interactiva 
