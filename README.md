@@ -1,94 +1,95 @@
 # NAIL
 
-*Not an Inform Library*
+*No es una biblioteca de Inform*
 
-NAIL is similar to a standard library for the Inform 6 programming language.
-It should allow authors to create text adventure games / interactive fiction 
-using the Z-machine virtual machine, to be played on 8-bit computers as well as newer
-platforms. It provides a parser, implementations of common verbs, as
-well as a framework for writing text adventures.
+NailES es similar a una biblioteca estándar para el lenguaje de programación Inform 6.
+Debería permitir a los autores crear juegos de aventuras de texto o ficción interactiva 
+utilizando la máquina virtual Z-machine, para que se puedan jugar tanto en ordenadores de 8 bits como en plataformas más modernas.
+Proporciona un analizador sintáctico, implementaciones de verbos comunes, así
+como un marco de trabajo para escribir aventuras de texto.
 
-NAIL is based on the PunyInform library, developed by Johan Berntsson and Fredrik Ramsberg.
-PunyInform, in turn, is based on the Inform 6 standard library, developed by Graham Nelson. PunyInform is smaller and faster than the Inform 6 standard library. NAIL is smaller than PunyInform. It is also more limited, less well tested, less well documented, and all-around harder to work with than PunyInform.
+NailES se basa en la biblioteca PunyInform, desarrollada por Johan Berntsson y Fredrik Ramsberg (y en su traducción al castellano, PunyInformES, desarrollada por Pablo Martínez, alias Kozelek).
+PunyInform, a su vez, se basa en la biblioteca estándar de Inform 6, desarrollada por Graham Nelson. PunyInformES es más pequeña y rápida que la biblioteca estándar de Inform 6. NailES es más pequeña que PunyInform. También es más limitada, está menos probada, menos documentada y, en general, resulta más difícil trabajar con ella que con PunyInformES.
 
-Games using NAIL can only be compiled to z3 format.
+Los juegos que utilizan NailES solo se pueden compilar en formato z3. Esto, para juegos escritos en español, tiene una serie de inconvenientes: No permite la deducción automática de infinitivos regulares (por lo tanto hay que introducir tanto "salta" como "saltar" en el vocabulario) y no es capaz de comprender sufijos -lo, -la, -los, -las como en "coge la galleta. comela".
 
-To compile games using NAIL, you need the the official Inform 6
-compiler maintained by David Kinder, at
-https://github.com/DavidKinder/Inform6.  Binaries can be found at the
+Para compilar juegos con NailES, necesitas el compilador oficial de Inform 6
+mantenido por David Kinder, en
+https://github.com/DavidKinder/Inform6.  Los binarios se pueden encontrar en el
 [IF-Archive](https://www.ifarchive.org/indexes/if-archive/infocom/compilers/inform6/executables/).
-You should use at least Inform v6.44, and I recommended using the latest available version.
+Debes utilizar al menos Inform v6.44, y te recomiendo que utilices la última versión disponible.
+Puedes utilizar [borogove.io](https://borogove.io/) para que tu juego de PunyInform
+se pueda jugar en línea. Crea una cuenta, sube el archivo de tu juego y elige si
+el juego debe estar visible y ser jugable para todos los visitantes de la página web, o
+solo para aquellos que tengan el enlace a tu juego. Otra opción es subir 
+el archivo de tu juego (por ejemplo, mygame.z3) al 
+[Parchment HTML Converter](https://iplayif.com/api/sitegen) y descargar un 
+archivo HTML único, que se puede subir a sitios como Itch.io.
 
-You can use [borogove.io](https://borogove.io/) to make your PunyInform
-game playable online. Create an account, upload your game file, and choose whether
-the game should be visible and playable for all visitors to the site, or
-only to those who have the link to your game. Another option is to upload 
-your game file (e.g. mygame.z3) to the 
-[Parchment HTML Converter](https://iplayif.com/api/sitegen) and download a 
-single-file HTML file, which can be uploaded to sites such as Itch.io.
+## Motivación
 
-## Motivation
+El objetivo principal de NailES es crear juegos muy pequeños, sin dejar de tener acceso
+a la mayor parte del práctico marco de trabajo que ofrece PunyInformES. Los juegos deben funcionar bien en
+arquitecturas antiguas, como los ordenadores de 8 bits de la década de 1980.
 
-The main goal of NAIL is to produce very small games, while still having access
-to most of the convenient framework provided by PunyInform. Games should run well on
-older architectures, such as the 8-bit computers of the 1980s.
-
-To make disk images for Commodore and Acorn computers, you can use
+Para crear imágenes de disco para ordenadores Commodore y Acorn, puedes utilizar
 [Ozmoo](https://github.com/johanberntsson/ozmoo/).
 
 
-## Status
+## Estado
 
-NAIL is fully working, but it probably has some rough edges.
+NailES funciona perfectamente, aunque probablemente aún tenga algunos detalles por pulir.
 
-If you are interested in this project, please star or follow the project
-here on Github. Announcements are made on https://intfiction.org/c/authoring/inform-6/66
+Si te interesa este proyecto, por favor, márcalo con una estrella o síguelo
+aquí en GitHub (así como su proyecto padre, [NAIL](https://github.com/fredrikr/nail)). Los anuncios se publican en https://intfiction.org/c/authoring/inform-6/66
 
-You can read the manual in the documentation folder.
+Puedes leer el manual en la carpeta de documentación.
 
-## Learning NAIL
+## Aprender a usar NailES
 
-You should start by learning [PunyInform](https://github.com/johanberntsson/PunyInform). Then read the (short) documentation on NAIL, to see which parts of PunyInform are supported in NAIL.
+Deberías empezar por aprender [PunyInformES](https://github.com/Kozelek/PunyInformES). A continuación, lee la (breve) documentación sobre NailES para ver qué partes de PunyInformES son compatibles con NailES.
 
-## Tools
+## Herramientas
 
-* To work with source code you may want a text editor which has a syntax
-  colouring mode for Inform 6. Some popular choices include Visual Studio
-  Code and Atom, both available for Windows, Mac and Linux. Notepad++ is
-  another option, for Windows.
+* Para trabajar con código fuente, es posible que te interese un editor de texto que cuente con un modo de
+  coloreado de sintaxis para Inform 6. Algunas opciones populares son Visual Studio
+  Code y Atom, ambos disponibles para Windows, Mac y Linux. Notepad++ es
+  otra opción, para Windows.
 
-* To quickly build a game for play on Commodore 64, 128, Plus/4, MEGA65, Commander X16 or Acorn/BBC, you can use [Ozmoo Online](https://ozmooo.online/).
+* Para compilar rápidamente un juego para Commodore 64, 128, Plus/4, MEGA65, Commander X16 o Acorn/BBC, puedes utilizar [Ozmoo Online](https://ozmooo.online/).
 
-* To build a game for 20+ different platforms at once, you can use the
-  [Puny BuildTools](https://github.com/ByteProject/Puny-BuildTools). This
-  tool set can be installed on Linux. Windows users can create a virtual machine
-  running Linux.
+* Para compilar un juego para más de 20 plataformas diferentes a la vez, puedes utilizar el
+  [Puny BuildTools](https://github.com/ByteProject/Puny-BuildTools). Este
+  conjunto de herramientas se puede instalar en Linux. Los usuarios de Windows pueden crear una máquina virtual
+  que ejecute Linux.
 
-* The [Parchment HTML Converter](https://iplayif.com/api/sitegen) can convert
-  your game file into an HTML file, making your game playable in a web browser.
+* El [Parchment HTML Converter](https://iplayif.com/api/sitegen) puede convertir
+  tu archivo de juego a un archivo HTML, lo que permite jugar a tu juego en un navegador web.
 
-## Community
+## Comunidad
 
-If you want to discuss, or ask questions about NAIL, these are good places to go:
+Si quieres debatir o hacer preguntas sobre NailES, estos son buenos sitios a los que acudir:
 
-* **[intfiction.org forum, Inform 6 section](https://intfiction.org/c/authoring/inform-6/66).
-  Please tag your posts with "punyinform".**
+* **[Canal de Telegram RetroAventuras](https://t.me/RetroAventuras).
+  Es un canal genérico para todo tipo de aventuras textuales para ordenadores de 8 bits, pero el autor de esta traducción suele frecuentarlo.**
 
-* **[PunyInform Discord server](https://discord.com/invite/y9anzKJTBa).
-  You can talk about NAIL in the #inferior_systems channel. 
-  Please note that you need to click checkmark in the Rules channel and
-  wait a few minutes before you can post.**
+* **[Foro de intfiction.org, sección Inform 6](https://intfiction.org/c/authoring/inform-6/66).
+  Por favor, etiqueta tus publicaciones con «punyinform».**
 
-There are also categories/channels in the above forums where you can
-discuss plot, story, puzzles etc, and posts requests for beta-testers
-for your game.
+* **[Servidor de Discord de PunyInform](https://discord.com/invite/y9anzKJTBa).
+  Puedes hablar sobre NAIL en el canal #inferior_systems. 
+  Ten en cuenta que debes hacer clic en la marca de verificación del canal «Rules» y
+  esperar unos minutos antes de poder publicar.**
 
-## Credits
+También hay categorías y canales en los foros mencionados donde puedes
+hablar sobre la trama, la historia, los acertijos, etc., y publicar solicitudes de beta-testers
+para tu juego.
 
-NAIL borrows a lot of code and concepts from PunyInform, created and maintained by 
-Johan Berntsson and Fredrik Ramsberg. PunyInform borrows a lot of code and concepts from the Inform 6 standard library, by Graham Nelson. 
+## Créditos
 
-Many thanks to David Kinder and Andrew Plotkin, for their hard work,
-and generosity with their time and knowledge, regarding the Inform 6 compiler.
+NailES toma prestado gran parte del código y los conceptos de PunyInform, creado y mantenido por Johan Berntsson y Fredrik Ramsberg, y de su traducción PunyInformES, creada y mantenida por Pablo Martínez (Kozelek). PunyInform, a su vez, toma prestado gran parte del código y los conceptos de la biblioteca estándar de Inform 6, obra de Graham Nelson. 
 
-Huge thanks to Graham Nelson, without whom the Inform 6 compiler and library wouldn't exist.
+Muchísimas gracias a David Kinder y Andrew Plotkin por su arduo trabajo
+y por la generosidad con la que han compartido su tiempo y sus conocimientos en relación con el compilador de Inform 6.
+
+Muchísimas gracias a Graham Nelson, sin quien el compilador y la biblioteca de Inform 6 no existirían.
